@@ -29,53 +29,148 @@ cpu:  计算
  - 云服务器：优点是部署快、运维成本较低、价格相对于实体服务器更优惠。缺点就是太依赖与网络（安全、速度）  
 
 ## 6.简述操作系统的概念？  
- - 
+ - 人与计算机硬件交流的介质  
+
+## 7.简述什么是linux？  
+ - 一个自由开源的类`unix`系统  
+
+## 8.简述什么是GNU、FSF、GPL  
+GNU: 开源计划  
+FSF：自由软件基金  
+GPL：开源协议许可  
 
 
-7.简述什么是linux？  
-8.简述什么是GNU、FSF、GPL  
-9.Linux适合在哪些领域？  
+## 9.Linux适合在哪些领域？  
+- 目前来说那没有不适合的领域吧
+
 10.常见的Linux发行版有哪些？  
+- Redhat(Fedora、Centos)、Ubuntu、SUSE
+
 11.简述你是如何安装Linux进行学习的，哪种形式?  
-  
+ - 我的物理机为`fedora 32`，作为我日常办公使用，作为`CentOS`"先驱版",也可以获得新技术的最新体验。 
+ - 我的测试机器为`CentOS 7.x`，以`virtualbox`部署，作为我部署的新测试环境和预发布环境  
+
 12.如何远程连接Linux机器 192.168.11.13，命令或者工具是？  
-13.解读该语句  
+ - 我的物理机器为`fedora`，因此连接直接`ssh <user>@192.168.11.13`即可，`windows`一般使用`xshell`进行登陆  
+
+## 13.解读该语句  
 [root@pylinux ~]#    
-14.解读该语句  
+- 当前用户`root` ,主机名`pylinux` ， 目录`~`(`/root/`) 下  
+
+## 14.解读该语句  
 /luffycity/chaoge/love_linux.txt  
-15.Linux文件目录结构特点是？  
-倒状的树形结构  
-16.简述如下目录初始含义/作用?  
+- 文件`love_linux.txt`位于目录`/luffycity/chaoge/`下 (??)
+
+
+## 15.Linux文件目录结构特点是？  
+- 倒状的树形结构  
+
+
+## 16.简述如下目录初始含义/作用?  
 /etc  
 /home  
 /opt  
 /usr/bin/  
-17.Linux作者是？  
-18.如何查看当前Linux机器的ip地址？  
-19.Linux的目录分隔符是？  
-20.什么是绝对路径、相对路径？  
+
+- (没太理解题目意思)
+- `linux`下一切目录及文件起源于`/`,`/etc`一般用于存方系统配置文件或公共配置文件，`/home`一般文系统普通用户的默认用户主目录，`/opt`一般为自编译的程序存放目录，`/usr/bin`一般为系统普通用户所使用命令的存储目录  
+
+
+## 17.Linux作者是？  
+- 内核`Linus Torvalds`
+
+## 18.如何查看当前Linux机器的ip地址？  
+- `ip a`  
+- `ifconfig`  
+
+## 19.Linux的目录分隔符是？  
+- 以`/`进行分割  
+
+## 20.什么是绝对路径、相对路径？  
+- 绝对路径： 启始目录为`/` 
+- 相对路径： 启始目录为当前目录(或者起始为`.`?)  
+
+
 21.呆在/tmp下，创建/chaoge/love_linux.txt文件，用绝对、相对2种命令方式  
+```bash
+$> pwd
+/tmp
+$> touch /chaoge/love_linux.txt   # touch ../chaoge/love_linux.txt
+```
+
 22.删除/tmp/下所有内容  
+- `rm -rf /tmp/*`  
+- `cd /tmp && rm -rf *`  
+
 23.解释如下目录的含义  
 .      
 ..      
 -      
 ~      
 /             
-24.查看根目录下所有内容详细信息，包含隐藏文件，且显示kb,mb,gb等单位  
-25.以树状图显示/home文件夹下的内容  
-26.一条命令创建文件夹/chaoge/love/linux  
-27.创建文件 /tmp/lovelinux.txt  
-28.拷贝/opt/下所有内容至/optbak/中  
-29.重命名文件chaoge.txt  chaoge_linux.txt  
-30.移动/tmp下所有内容到/tmpbak/  
-31.解释下为什么rm命令删除文件时候，默认会让用户输入yes确认？如何强制删除文件？  
-32.如何查看rm命令的帮助信息?  
-33.常用Linux快捷键有哪些？  
-34.vim常见的工作模式有哪些？  
-35.使用vim写一个chaoge_linux.txt，内容是"我是如此的热爱Linux"  
-36.如何在vim中显示行号?快速搜索"root"字符？如何给多行信息添加注释符？  
-37.简述如下符号含义  
+
+- `.`: 代表当前目录  
+- `..`: 代表上级目录  
+- `-`: 环境变量`OLDPWD`,代表切换目录前的目录  
+- `~`: 当前用户主目录  
+- `/`: 系统根目录  
+
+## 24.查看根目录下所有内容详细信息，包含隐藏文件，且显示kb,mb,gb等单位  
+- `ls -lah /`  
+- `ls -ash /` 
+
+## 25.以树状图显示/home文件夹下的内容  
+- `tree /home`   
+
+## 26.一条命令创建文件夹/chaoge/love/linux  
+- `mkdir -p /chaoge/love/linux`
+
+## 27.创建文件 /tmp/lovelinux.txt  
+- `touch /tmp/lovelinux.txt`  
+- `echo > /tmp/lovelinux.txt`  
+- `echo >> /tmp/lovelinux.txt`  
+
+## 28.拷贝/opt/下所有内容至/optbak/中  
+- `cp -r /opt/ /optbak/`  
+- `mkdir /optbak && cp -r /opt/* /optbak`  
+
+
+## 29.重命名文件chaoge.txt  chaoge_linux.txt  
+- `mv chaoge.txt  chaoge_linux.txt`  
+
+## 30.移动/tmp下所有内容到/tmpbak/  
+- `mkdir /tmpbak && mv /tmp/* /tmpbak/`  
+
+
+## 31.解释下为什么rm命令删除文件时候，默认会让用户输入yes确认？如何强制删除文件？  
+- `rm`默认删除文件是不会让用户确认的，需要确认是因为一般环境变量为使用别名`alias`为`rm`命令添加了`-i`选项, 强制删除文件可以取消别名或者在执行`rm`时使用`\`对`rm`进行忽略别名配置,或者添加`-f`选项    
+
+## 32.如何查看rm命令的帮助信息?  
+- `rm --help or man rm `
+
+## 33.常用Linux快捷键有哪些？  
+- `Ctrl + C`: 结束当前正在运行的进程  
+- `Ctrl + z`: 暂停当前运行的进程 
+- `Ctrl + d`: 结束输入 
+
+## 34.vim常见的工作模式有哪些？  
+- 编辑、插入、命令、可视、普通 
+
+## 35.使用vim写一个chaoge_linux.txt，内容是"我是如此的热爱Linux"  
+```bash
+$> vim chaoge_linux.txt
+我是如此的热爱Linux
+
+> esc -- :wq
+> esc -- :x
+```
+
+## 36.如何在vim中显示行号?快速搜索"root"字符？如何给多行信息添加注释符？  
+- 行号: 命令模式下输入 `set nu` 开启行号 
+- 搜索: 正常模式下输入`/root`  
+- 添加注释: 正常模式下按键`Ctrl + v`进入可视块,上下键选择多行，按`Shift + i`进入编辑模式，输入`#`，连续按下`esc`退出保存即可。   
+
+## 37.简述如下符号含义  
 *  
 &  
 ?  
@@ -85,6 +180,8 @@ cpu:  计算
 ""  
 ''  
 $  
+- `*`: 
+
 38.如何读取文件chaoge_linux.txt且显示行号？  
 39.读取/etc/passwd内容写入到/tmp/pwd.txt中  
 40.如何检查mysql端口号是否存活  
