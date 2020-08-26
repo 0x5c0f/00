@@ -35,3 +35,26 @@
     DNS1=114.114.114.114        # dns 配置地址，DNS1 DNS2        
     GATEWAY=192.16.10.1         # 网关地址  
     ```
+- linux 开机启动流程  
+    1. 打开电源  
+    2. 开机`bios`自检  
+    3. `mbr`引导  
+    4. `gurb`查找并加载内核   
+    5. 内核初始化  
+    6. `systemd`初始化  
+    7. 读取运行级别(`/etc/systemd/system/default.target`-`/lib/systemd/system/multi-user.target`)  
+    8. 启动系统服务  
+    9. 启动登陆界面  
+
+- linux 运行级别    
+    默认运行级别: `/etc/systemd/system/default.target`  
+
+    |-|-|-|
+    |-|-|-|
+    |`0`|`runlevel0.target(poweroff.target)`|停机模式|
+    |`1`|`runlevel1.target(rescue.target)`|单用户模式|
+    |`2`|`runlevel2.target(multi-user.target)`|多用户模式,不支持`nfs`|
+    |`3`|`runlevel3.target(multi-user.target)`|多用户模式|
+    |`4`|`runlevel4.target(multi-user.target)`|系统未使用，保留给用户|
+    |`5`|`runlevel5.target(graphical.target)`|图形界面|
+    |`6`|`runlevel6.target(reboot.target)`|重启模式|

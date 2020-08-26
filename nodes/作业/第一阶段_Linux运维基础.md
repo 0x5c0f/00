@@ -182,16 +182,55 @@ $> vim chaoge_linux.txt
 $  
 - `*`: 
 
-38.如何读取文件chaoge_linux.txt且显示行号？  
-39.读取/etc/passwd内容写入到/tmp/pwd.txt中  
-40.如何检查mysql端口号是否存活  
-41.如何读取chaoge.txt文件20行~30行的内容?  
-42.实时监听文件chaoge.log的内容变化  
-43.输出文件chaoge.txt每一行的第6个字符到结尾  
-44.对文件/etc/passwd操作，以冒号分割，对第三列进行排序  
-45.找出文件chaoge.txt重复的行，且统计重复次数  
-46.计算当前linux有几个登录终端  
-47.查看文件chaoge.sh文件的状态信息  
-48.找到当前linux上所有"chaoge.txt"文件且删除  
-49.找出linux机器上，恰好在7天内被访问的文件  
-50.搜索出linux上超过100M的文件  
+## 38.如何读取文件chaoge_linux.txt且显示行号？ 
+- `cat -n chaoge_linux.txt`  
+- `less -n chaoge_linux.txt`  
+
+## 39.读取/etc/passwd内容写入到/tmp/pwd.txt中  
+- `cat /etc/passwd > /tmp/pwd.txt`  
+- `install -m 644 -p /etc/passwd  /tmp/pwd.txt`
+
+## 40.如何检查mysql端口号是否存活  
+- `telnet 127.0.0.1 3306`  
+- `nc -z -w 3 127.0.0.1 3306 >& /dev/null && echo ok`  
+
+
+## 41.如何读取chaoge.txt文件20行~30行的内容?  
+- `head -n 30 chaoge.txt| tail -n 11`  
+- `awk 'NR==20,NR==30' chaoge.txt`  
+- `sed -n '20,30p' chaoge.txt`  
+
+## 42.实时监听文件chaoge.log的内容变化
+- `tail -f chaoge.log` 
+
+
+## 43.输出文件chaoge.txt每一行的第6个字符到结尾  
+- `cut -c -6 chaoge.txt`  
+- 
+
+## 44.对文件/etc/passwd操作，以冒号分割，对第三列进行排序  
+- `sort -n -t : -k 3 /etc/passwd`  
+
+## 45.找出文件chaoge.txt重复的行，且统计重复次数  
+- `sort -n chaoge.txt | uniq -c -d `
+
+## 46.计算当前linux有几个登录终端  
+- 一般默认`6`个, 可通过`/etc/systemd/logind.conf`管理`NAutoVTs`控制   
+- 或者问的是`ps -ef|grep tty`?  
+
+## 47.查看文件chaoge.sh文件的状态信息  
+- `stat chaoge.sh`  
+
+## 48.找到当前linux上所有"chaoge.txt"文件且删除  
+- `find / -type f -name "chaoge.txt" -exec rm -rf {} \;`  
+- `find / -type f -name "chaoge.txt"|xargs rm -rf `  
+- `find / -type f -name "chaoge.txt" -delete `   
+
+
+## 49.找出linux机器上，恰好在7天内被访问的文件  
+ - `find / -type f -atime -7` 
+
+
+## 50.搜索出linux上超过100M的文件  
+ - `find / -type f -size +100M `  
+
