@@ -105,3 +105,6 @@ $> echo "hello 0x "|tr -c 'x' 'c'
 $> find /home/<user>/ -path "/home/<user>/Videos" -prune -o -size +100M -a -type f -print
 ```
 
+# readlink 命令
+- `readlink /pathto >& /dev/null && ehco ok || echo no`  # 判断文件或目录是否为链接属性  
+
