@@ -66,12 +66,6 @@
 - `/etc/sysconfig/network-scripts/ifcfg-eth0`: 网卡配置文件   
 - `/etc/profile`: 用于配置系统环境变量用的  
 
-
-# su 命令 
-`su`命令切换用户，使用`su - <user>`切换将完全切换，包括环境变量、顺便也会切换当前目录为用户主目录，`su <user>`仅切换用户，其他保持现有不变。 
-- `su - root -c "ls -l /home/"`: `-c`仅执行一条命令，而不切换用户  
-- `su - <user> -s /bin/fish`： `-s` 指定登陆用户所使用的`bash`  
-
 # cd 命令 
 - `cd` 命令需要注意参数`-P`,指定时切换到实际目录而非链接目录  
 
