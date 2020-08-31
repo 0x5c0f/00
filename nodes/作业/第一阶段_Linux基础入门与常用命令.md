@@ -43,14 +43,14 @@ GPL：开源协议许可
 ## 9.Linux适合在哪些领域？  
 - 目前来说那没有不适合的领域吧
 
-10.常见的Linux发行版有哪些？  
+## 10.常见的Linux发行版有哪些？  
 - Redhat(Fedora、Centos)、Ubuntu、SUSE
 
-11.简述你是如何安装Linux进行学习的，哪种形式?  
+## 11.简述你是如何安装Linux进行学习的，哪种形式?  
  - 我的物理机为`fedora 32`，作为我日常办公使用，作为`CentOS`"先驱版",也可以获得新技术的最新体验。 
  - 我的测试机器为`CentOS 7.x`，以`virtualbox`部署，作为我部署的新测试环境和预发布环境  
 
-12.如何远程连接Linux机器 192.168.11.13，命令或者工具是？  
+## 12.如何远程连接Linux机器 192.168.11.13，命令或者工具是？  
  - 我的物理机器为`fedora`，因此连接直接`ssh <user>@192.168.11.13`即可，`windows`一般使用`xshell`进行登陆  
 
 ## 13.解读该语句  
@@ -59,7 +59,7 @@ GPL：开源协议许可
 
 ## 14.解读该语句  
 /luffycity/chaoge/love_linux.txt  
-- 文件`love_linux.txt`位于目录`/luffycity/chaoge/`下 (??)
+- 文件`love_linux.txt`位于目录`/luffycity/chaoge/`下 
 
 
 ## 15.Linux文件目录结构特点是？  
@@ -91,18 +91,18 @@ GPL：开源协议许可
 - 相对路径： 启始目录为当前目录(或者起始为`.`?)  
 
 
-21.呆在/tmp下，创建/chaoge/love_linux.txt文件，用绝对、相对2种命令方式  
+## 21.呆在/tmp下，创建/chaoge/love_linux.txt文件，用绝对、相对2种命令方式  
 ```bash
 $> pwd
 /tmp
 $> touch /chaoge/love_linux.txt   # touch ../chaoge/love_linux.txt
 ```
 
-22.删除/tmp/下所有内容  
+## 22.删除/tmp/下所有内容  
 - `rm -rf /tmp/*`  
 - `cd /tmp && rm -rf *`  
 
-23.解释如下目录的含义  
+## 23.解释如下目录的含义  
 .      
 ..      
 -      
@@ -161,8 +161,7 @@ $> touch /chaoge/love_linux.txt   # touch ../chaoge/love_linux.txt
 $> vim chaoge_linux.txt
 我是如此的热爱Linux
 
-> esc -- :wq
-> esc -- :x
+> esc -- :wq (esc -- :x)
 ```
 
 ## 36.如何在vim中显示行号?快速搜索"root"字符？如何给多行信息添加注释符？  
@@ -180,7 +179,15 @@ $> vim chaoge_linux.txt
 ""  
 ''  
 $  
-- `*`: 
+- `*`: 匹配0次或多次  
+- `?`: 基本正则代表匹配仅一次，扩展和`perl`正则表示匹配零次或一次  
+- `\`: `linux`下的转义符号 
+- `&`:  命令后跟代表将程序运行到后台
+- `&&`: 逻辑判断标识，`shell`中代表`&&`前面命令执行成功后且结果为真后面的命令才会被继续执行  
+- `#`:  在`shell`中，`#`代表注释,在命令提示符中代表当前登陆用户为`root`  
+- `""`: 在`shell`中,当注释一个文本，若文本中包含变量或转义符时,会将齐转换后在输出
+- `''`: 在`shell`中代表所见即所得，单引号内容是什么就打印什么 
+- `$`: 在`shell`代表获取变量值,在命令提示符中代表当前登陆用户为普通用户 
 
 ## 38.如何读取文件chaoge_linux.txt且显示行号？ 
 - `cat -n chaoge_linux.txt`  
@@ -216,7 +223,7 @@ $
 
 ## 46.计算当前linux有几个登录终端  
 - 一般默认`6`个, 可通过`/etc/systemd/logind.conf`管理`NAutoVTs`控制   
-- 或者问的是`ps -ef|grep tty`?  
+- 或者问的是`ps -ef|grep tty`  
 
 ## 47.查看文件chaoge.sh文件的状态信息  
 - `stat chaoge.sh`  
