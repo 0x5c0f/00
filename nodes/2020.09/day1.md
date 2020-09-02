@@ -72,7 +72,8 @@ He love his lovers.
 ``` 
 
 # sed 命令 
-sed工作流程(循环至结束): `读取行` -> `执行` -> `显示`   
+`sed`工作流程(循环至结束): `读取行` -> `执行` -> `显示`   
+`sed`使用的正则为基础正则  
 选项参数:   
 - `-n`: 取消默认输出  
 - `-i`: 直接将修改结果写入文件  
@@ -154,6 +155,9 @@ hello word
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
 -----
 apache:x:3:3:apache:/dev:/usr/sbin/nologin
-```
 
--e 参数详细内容 
+# 获取系统ip 
+$> ifconfig enp0s31f6|sed -ne '2s/^.*inet//' -ne '2s/net.*$//p'
+$> ifconfig enp0s31f6|sed -ne 's/^.*inet//g' -ne 's/netm.*$//' -ne '2p'  
+
+```
