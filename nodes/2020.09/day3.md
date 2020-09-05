@@ -20,8 +20,3 @@ BEGIN { actions }
 END { actions } 
 ' filenames 
 ```
-
-## awk 正则 
-```
-
-```
