@@ -1,9 +1,30 @@
 # 1.用vmware添加一块10G的硬盘，且永久挂载到/data01中，写出详细的步骤
-- 个人使用`virtualbox`,虚拟机软件添加硬盘两者差异在是否需要提前
+个人使用`virtualbox`,虚拟机软件添加硬盘两者差异是在是否需要提前关机，`vmware`添加硬盘可以不用提前关机而直接添加，具体步骤为选中`虚拟机`-`右键`-`设置`-`添加`-`硬盘`-`下一步(全部默认)`-`修改磁盘大小为10G`-`选择存储位置`-`确定`，`virtualbox`添加硬盘必须要先关闭虚拟机,然后右键选中`虚拟机`-`右键`-`设置`-`存储`-`右键 控制器:sata`-`硬盘`-`创建(默认)`-`固定大小`-`修改大小10G`-`点击创建`-`选择创建磁盘`-最后确定设置完成添加。`vmware`添加后硬盘后可以通过重新扫描`SCSI总线`获取添加硬盘信息，单个人建议重启，`virtualbox`添加后直接启动就行了。  
+内部处理： 
+```bash
+    # 假设新增盘为sdb 
+    $> mkdir /data01 
+    ## 不分区情况 
+    $> mkfs.ext4 /dev/sdb 
+    $> blkid /dev/sdb  # 获取到硬盘sdb的uuid 
+    $> echo "UUID=xxxxxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx /data01 ext4    defaults        1 1" >> /etc/fstab 
+    $> mount -av # 挂载到系统 
 
-右键虚拟机-设置-添加-磁盘-下一步(直到最后)-默认20G修改为10G-确定-重启虚拟机 
-
+    ## 分区情况 
+    $> fdisk /dev/sdb 
+    > n # 新建分区 
+    > p # 创建主分区
+    > # 回车全部使用默认参数
+    > w # 保存退出 
+    # 新建盘为 /dev/sdb1 
+    $> blkid /dev/sdb1  # 获取到硬盘sdb1的uuid 
+    $> echo "UUID=xxxxxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx /data01 ext4    defaults        1 1" >> /etc/fstab 
+    $> mount -av # 挂载到系统 
+```
 # 2.用自己语言描述raid0和raid1的区别
+- `raid0`: 性能最好的一种，至少需要2块盘(据说一块也可以，不过一块个人感觉没什么用)，可大量提升文件读写速度，但安全性差，一旦任意一块盘损坏，即全部损坏 
+- `raid1`: 相当于主备盘，至少需要2块，损失一块盘的磁盘容量，总容量和最小盘一致。写数据效率受影响，读效率不受影响 
+
 
 
 # 3.sed删除文件的空白和注释行
