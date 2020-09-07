@@ -71,7 +71,7 @@ adm:x:3:4:adm
 `-L`, `--max-line-length`  显示最长行的长度
 `-w`, `--words`            显示单词计数
 
-# soft 命令  
+# sort 命令  
 
  - `-b,--ignore-leading-blanks`	忽略每行前面开始出的空格字符
  - `-d,--dictionary-order`	只考虑空白区域和字母字符
