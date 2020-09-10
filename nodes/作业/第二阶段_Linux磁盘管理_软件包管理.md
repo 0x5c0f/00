@@ -10,7 +10,7 @@
 
 ## 2.查看linux的定时任务列表
 - `crontab -l `
-- `cat /var/spool/cron/crontabs/<user>` 
+- `cat /var/spool/cron/crontabs/${USER}` 
 
 ## 3.每晚0点整，把站点目录/var/www/html下的内容打包备份到/data目录下
 - `0 0 * * * /usr/bin/tar -czf /data/html_`date +"\%Y\%m\%d"`.tar.gz /var/www/html/* >&　/dev/null ` 
@@ -74,3 +74,5 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7     # 公钥
 - `sar`  
 - `vmstat` 
 - `iostat` 
+- `ss`
+- `netstat`

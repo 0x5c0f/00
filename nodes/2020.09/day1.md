@@ -71,6 +71,9 @@ He love his lovers.
 $>  grep -E "(l..e).*\1" 
 I love my lover.
 He love his lovers.
+
+# 找出用户名和shell相同的用户 
+$> grep -E "^([^:]+\>).*\1$" /etc/passwd 
 ``` 
 
 # sed 命令 
