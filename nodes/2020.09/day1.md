@@ -30,6 +30,8 @@
 |`.*$`|组合符，匹配一任意多个字符结尾的内容|
 |`[abc]|[a-c]`|匹配`[]`内任意一个字符,`a`或`b`或`c`|
 |`[^abc]`|匹配除`a`或`b`或`c`的其他字符|  
+|`\1`|正则表达式引擎会从左第一个左括号对应括号的分组匹配到的内容保存至变量`\1`中|
+|`\2`|第二个左括号中匹配到的内容保存至变量`\2`中,以此类推|
 
 
 
@@ -164,5 +166,18 @@ apache:x:3:3:apache:/dev:/usr/sbin/nologin
 # 获取系统ip 
 $> ifconfig enp0s31f6|sed -ne '2s/^.*inet//' -ne '2s/net.*$//p'
 $> ifconfig enp0s31f6|sed -ne 's/^.*inet//g' -ne 's/netm.*$//' -ne '2p'  
+
+
+# 给文件前几行添加注释 
+$> sed -r '1,3s/(^.)/#\1/' pwd.txt
+#root:x:0:0:root:/root:/bin/bash
+#bin:x:1:1:bin:/bin:/sbin/nologin
+#daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+
 
 ```
