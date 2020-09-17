@@ -9,7 +9,7 @@
 #            mysql_database: 数据库备份定义，每天备份一次
 #     base_path     : 备份文件存放根路径
 #     back_ignore   : 备份忽略配置文件，不存在自动创建并添加默认忽略内容( *.log *.bak *.back *-back *-bak log logs bak back temp tmp)
-# 00 01 * * * /bin/bash /opt/sh/web.backup.sh >> /data/backup/backlogs.log 2>&1  
+# 00 00 * * * /bin/bash /opt/sh/web.backup.sh 1 >> backup/backlogs.log 2>&1  
 # yum install p7zip
 # pip install awscli
 # aws configure
@@ -162,6 +162,10 @@ awscli_sync(){
       fi    
     done
   fi
+}
+
+remote_rsync(){
+  echo "rsync -avztopg \"${base_path}/\" ${username}@${remote_ip}::${remote_block}/"
 }
 
 FTP_TRANSFER(){
@@ -320,9 +324,14 @@ main(){
   echo -e "###  \033[32m Start remote sync \033[0m  ###"
   if [ "$ISSync" -eq "1" ]; then
     awscli_sync
+  elif [ "$ISSync" -eq "2" ]; then
+    remote_rsync
   else
     ftp_sync 
   fi
+
+  find /backup -type f -name "*.tar.gz" -mtime +7 -exec rm -rf {} \;
+  
 }
 
 echo "Backup start TIME >:"$(date +"%s")
