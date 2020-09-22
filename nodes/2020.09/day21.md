@@ -86,8 +86,6 @@ $> ln -s /opt/httpd-2.4.46 /opt/httpd
 $> cp /opt/httpd/bin/apachectl /etc/init.d/httpd
 $> systemctl daemon-reload 
 $> systemctl start httpd
-```
-
-## apache 工作模式 
+``` 
  
 
