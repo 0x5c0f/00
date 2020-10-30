@@ -1,0 +1,87 @@
+- name: check user
+  shell: id www >& /dev/null 
+  register: check_user
+  args:
+    warn: false
+
+- name: init user
+  user: 
+    name: www 
+    shell: /sbin/nologin 
+    uid: 1002 
+    home: /var/ftproot 
+    createhome: no 
+  when: not check_user 
+
+- name: yum Depend
+  yum: name="gcc,glibc,gcc-c++,pcre-devel,openssl-devel" state=installed
+
+- name: download nginx
+  get_url:
+    dest: /data/softsrc/nginx-{{ nginx_version }}.tar.gz
+    url: http://nginx.org/download/nginx-{{ nginx_version }}.tar.gz
+  when: not islocal_src 
+    
+- name: clone nginx vts
+  git: 
+    repo: "https://github.com/vozlt/nginx-module-vts.git"
+    dest: /data/softsrc/nginx-module-vts
+    clone: yes
+    update: yes
+
+- name: remove unarchive nginx src
+  file: 
+    path: /data/softsrc/nginx-{{ nginx_version }}
+    state: absent
+
+- name: unarchive nginx 
+  unarchive: 
+    src: /data/softsrc/nginx-{{ nginx_version }}.tar.gz 
+    dest: /data/softsrc
+    remote_src: yes
+  when: not islocal_src 
+
+- name: unarchive nginx 
+  unarchive:
+    src: '../package/nginx-{{ nginx_version }}.tar.gz'
+    dest: /data/softsrc/
+  when: islocal_src
+
+- name: update nginx version info 
+  shell: "sed -i 's#{{ item.src }}#{{ item.dest }}#g' {{ item.file }}"
+  with_items:
+    - {src: '"{{ nginx_version }}"',dest: '"1.0"', file: './src/core/nginx.h'}
+    - {src: '"NGINX"',dest: '"0x5c0f"', file: './src/core/nginx.h'}
+    - {src: '"nginx/"',dest: '"0x5c0f/"', file: './src/core/nginx.h'}
+    - {src: '"Server: nginx"',dest: '"Server: 0x5c0f"',file: './src/http/ngx_http_header_filter_module.c'}
+    - {src: '<center>nginx</center>', dest: '<center>0x5c0f</center>#g',file: './src/http/ngx_http_special_response.c'}
+  args:
+    chdir: /data/softsrc/nginx-{{ nginx_version }}
+    warn: false
+
+- name: nginx build
+  shell: "{{ item }}"
+  with_items:
+    - ./configure --user=www --group=www --with-http_ssl_module --with-http_realip_module --with-http_v2_module --add-module=../nginx-module-vts/ --prefix=/opt/nginx-{{ nginx_version }} 
+    - make -j4 
+    - make install 
+  args:
+    chdir: /data/softsrc/nginx-{{ nginx_version }}
+
+- name: init nginx dirs   
+  file: src=/opt/nginx-{{ nginx_version }} dest=/opt/nginxssl state=link
+
+- name: init config 
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}' 
+  with_items:
+    - {src: './nginx.conf',dest: '/opt/nginxssl/conf'}
+    - {src: './nginx.service',dest: '/etc/systemd/system'}
+
+- name: nginx systemd init
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: nginx
+    enabled: yes

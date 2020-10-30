@@ -1,0 +1,30 @@
+- hosts: monitor
+  remote_user: root
+  gather_facts: false
+  # debugger: on_failed
+
+  tasks:
+    - name: init software dirs 
+      file: dest=/data/softsrc state=directory owner=root group=root mode=0755
+
+    - name: install nginx
+      include_tasks: 
+        file: ./nginx/nginx.yml
+      vars:
+        nginx_version: 1.14.2
+        islocal_src: true
+    
+    - name: install php 
+      include_tasks:
+        file: ./php/php.yml
+      vars:
+        php_version: 5.6.40
+        libiconv_version: 1.15
+        islocal_src: true
+    
+    # - name: install mysql 
+    #   include_tasks:
+    #     file: ./mysql/mysql.yml
+    #   vars:
+    #     mysql_version: 5.6 
+    #     islocal_src: true

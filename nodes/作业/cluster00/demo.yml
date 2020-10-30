@@ -1,0 +1,11 @@
+- hosts: monitor
+  remote_user: root
+  gather_facts: false
+
+  tasks:
+    - name: clone nginx vts
+      git: 
+        repo: "https://github.com/vozlt/nginx-module-vts.git"
+        dest: /data/nginx-module-vts
+        clone: yes
+        update: yes

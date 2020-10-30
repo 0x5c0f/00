@@ -1,0 +1,98 @@
+- name: check user
+  shell: id www >& /dev/null 
+  register: check_user
+  args:
+    warn: false
+
+- name: init user
+  user: 
+    name: www 
+    shell: /sbin/nologin 
+    uid: 1002 
+    home: /var/ftproot 
+    createhome: no 
+  when: not check_user 
+
+- name: download php libiconv
+  get_url:
+    dest: "{{ item.dest }}"
+    url: "{{ item.url }}"
+    validate_certs:
+  with_items:
+    - {url: 'https://ftp.gnu.org/pub/gnu/libiconv/libiconv-{{ libiconv_version }}.tar.gz',dest: '/data/softsrc/libiconv-{{ libiconv_version }}.tar.gz'}
+    - {url: 'http://mirrors.sohu.com/php/php-{{ php_version }}.tar.gz',dest: '/data/softsrc/php-{{ php_version }}.tar.gz'}
+  when: not islocal_src
+
+- name: yum Depend
+  yum: name="zlib-devel,libxml2-devel,libjpeg-devel,libjpeg-turbo-devel,freetype-devel,libpng-devel,gd-devel,libcurl-devel,libxslt-devel,openssl,openssl-devel,mhash,libmcrypt-devel,mcrypt,gcc,glibc,gcc-c++" state=installed
+  
+- name: remove unarchive installd src
+  file: 
+    path: '{{ item.path }}'
+    state: absent
+  with_items:
+    - {path: '/data/softsrc/php-{{ php_version }}'}
+    - {path: '/data/softsrc/libiconv-{{ libiconv_version }}'}
+  
+- name: unarchive installd file  
+  unarchive: 
+    src: '{{ item.src }}' 
+    dest: /data/softsrc
+    remote_src: yes
+  with_items:
+    - {src: '/data/softsrc/php-{{ php_version }}.tar.gz'}
+    - {src: '/data/softsrc/libiconv-{{ libiconv_version }}.tar.gz'}
+  when: not islocal_src 
+  
+- name: unarchive installd file
+  unarchive:
+    src: '{{ item.src }}'
+    dest: /data/softsrc
+    remote_src: no
+  with_items:
+    - {src: '../package/php-{{ php_version }}.tar.gz'}
+    - {src: '../package/libiconv-{{ libiconv_version }}.tar.gz'}
+  when: islocal_src
+
+- name: libiconv build
+  shell: "{{ item }}"
+  with_items:
+    - ./configure --prefix=/usr/local/libiconv 
+    - make 
+    - make install 
+  args:
+    chdir: '/data/softsrc/libiconv-{{ libiconv_version }}'
+
+- name: php build
+  shell: "{{ item }}"
+  with_items:
+    - ./configure --prefix=/opt/php{{ php_version }} --with-config-file-path=/opt/php{{ php_version }}/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-iconv-dir=/usr/local/libiconv --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir --enable-xml --disable-rpath --disable-debug --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --with-curl --enable-mbregex --enable-fpm --enable-mbstring --with-mcrypt --with-gd --enable-gd-native-ttf --with-openssl --with-mhash --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --enable-short-tags --enable-static --with-xsl --with-gettext --with-fpm-user=www --with-fpm-group=www --enable-ftp --enable-opcache=no
+    - make -j4 
+    - make install 
+  args:
+    chdir: '/data/softsrc/php-{{ php_version }}'
+
+- name: init php dirs   
+  file: src=/opt/php{{ php_version }} dest=/opt/php-server state=link
+
+- name: init php config 
+  copy:
+    dest: '{{ item.dest }}'
+    src: '{{ item.src }}'
+    remote_src: yes
+  with_items:
+    - {src: '/data/softsrc/php-{{ php_version }}/php.ini-production',dest: '/opt/php-server/etc/php.ini'}
+    - {src: '/opt/php-server/etc/php-fpm.conf.default',dest: '/opt/php-server/etc/php-fpm.conf'}
+
+- name: init php systemd config
+  copy:
+    src: './php-fpm.service'
+    dest: /etc/systemd/system
+
+- name: php systemd restart
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: php-fpm
+    enabled: yes
+    
