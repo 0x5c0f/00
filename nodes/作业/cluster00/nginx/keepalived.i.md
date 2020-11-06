@@ -56,7 +56,7 @@ vrrp_script check_web {                         # 函数名(需放到实例与�
     # weight  2                                   # 用于与执行结果判断而调整优先级的
 }
 
-track_script {                                  # 调用配置的函数脚本（放到示例配置里面） 
+track_script {                                  # 调用配置的函数脚本（放到实例配置里面） 
     check_web
 }
 
