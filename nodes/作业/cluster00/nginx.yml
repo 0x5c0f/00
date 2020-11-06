@@ -1,0 +1,15 @@
+- hosts: nginx
+  remote_user: root
+  gather_facts: false
+  # debugger: on_failed
+
+  tasks:
+    - name: init software dirs 
+      file: dest=/data/softsrc state=directory owner=root group=root mode=0755
+
+    - name: install nginx
+      include_tasks: 
+        file: ./nginx/nginx.yml
+      vars:
+        nginx_version: 1.14.2
+        islocal_src: true
