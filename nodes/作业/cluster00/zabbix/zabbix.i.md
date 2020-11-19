@@ -13,6 +13,9 @@ yum -y install curl libcurl-devel net-snmp net-snmp-devel perl-DBI libdbi-dbd-my
 
 ./configure --prefix=/opt/zabbix-3.4.15 --enable-server --enable-agent --enable-java --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2
 
+
+# ./configure --prefix=/opt/zabbix-4.0.26 --enable-agent
+
 make && make install
 
 ln -s /opt/zabbix-4.0.26 /opt/zabbix-server
@@ -30,8 +33,8 @@ source /data/softsrc/zabbix-4.0.26/database/mysql/images.sql;
 
 source /data/softsrc/zabbix-4.0.26/database/mysql/data.sql;
 
-GRANT ALL PRIVILEGES ON *.* TO 'zabbix'@'127.0.0.1'  Identified by "NQHWbkuyjpZ84dWt";
-GRANT ALL PRIVILEGES ON *.* TO 'zabbix'@'localhost'  Identified by "NQHWbkuyjpZ84dWt";
+GRANT ALL PRIVILEGES ON zabbix.* TO 'zabbix'@'127.0.0.1'  Identified by "NQHWbkuyjpZ84dWt";
+GRANT ALL PRIVILEGES ON zabbix.* TO 'zabbix'@'localhost'  Identified by "NQHWbkuyjpZ84dWt";
 
 
 

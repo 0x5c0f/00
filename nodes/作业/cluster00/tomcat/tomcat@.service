@@ -1,0 +1,26 @@
+[Unit]
+Description=Tomcat - instance %i
+After=syslog.target network.target remote-fs.target
+
+[Service]
+Type=forking
+
+User=tomcat
+Group=tomcat
+
+PrivateTmp=true
+
+WorkingDirectory=/opt/tomcat/%i
+
+Environment="JAVA_HOME=/opt/jdk1.8.0_271"
+
+Environment="CATALINA_PID=/opt/tomcat/%i/run/tomcat.pid"
+
+ExecStart=/opt/tomcat/bin/startup.sh
+ExecStop=/opt/tomcat/bin/shutdown.sh
+
+#RestartSec=10
+#Restart=always
+
+[Install]
+WantedBy=multi-user.target

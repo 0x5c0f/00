@@ -7,3 +7,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost'  Identified by "ih1dH8P9XuCMgT
 
 CREATE DATABASE `zbpsys` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 GRANT ALL PRIVILEGES ON zbpsys.* TO 'zbsys'@'10.0.2.%'  Identified by "Owzffj5gcdgalyMD";
+
+
+CREATE DATABASE `jpress` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+GRANT ALL PRIVILEGES ON jpress.* TO 'jpress'@'10.0.2.%'  Identified by "42uWelnesCzF16rxxAIjKHdAncc";

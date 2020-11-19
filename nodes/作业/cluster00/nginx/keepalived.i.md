@@ -40,7 +40,7 @@ vrrp_instance VI_1 {                # 定义实例信息，同主备节点实例
 
 
 ## 建立nginx与keepalived的关联 
-nginx 存活检测(示例，实际这样不对)
+nginx 存活检测(示例，实际可能需要更为详细的检测脚本) ，完成后需要修正`keepalive.service`在`nginx.service`后启动
 ```bash
 #!/bin/bash
 systemctl is-active nginx.service >& /dev/null || {
