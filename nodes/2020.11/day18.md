@@ -111,3 +111,30 @@ $> git tag -d v1.0
 # 重置到某个标签(提交点)
 $> git reset --hard v1.0  # or git reset --hard <commit>
 ```
+
+### 远程推送(gitlab) 
+```bash
+
+$> git remote add origin http://xxxxxxx/xxx.git
+$> git push -u origin master
+
+## gitlab 备份(/etc/gitlab.rb)
+# 备份路径
+gitlab_rails['backup_path'] = '/data/backup'
+# 备份保留时间(秒)
+gitlab_rails['backup_keep_time'] = 604800
+
+# 执行备份
+$> /usr/bin/gitlab-rake gitlab:backup:create
+
+
+# 数据恢复 
+# 停止数据写入服务
+$> gitlab-ctl stop unicorn
+$> gitlab-ctl stop sidekiq
+
+$> gitlab-rake gitlab:backup:restore BACKUP=<备份文件的数字部分>  # 回车一路yes
+
+$> gitlab-ctl restart
+
+```
